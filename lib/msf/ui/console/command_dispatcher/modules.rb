@@ -1123,7 +1123,7 @@ module Msf
             if(!module_name.nil? and !module_name.blank?)
               if(module_name.last(3).eql? '.rb')
                 if(!framework.modules.create(module_name[0...-3]).nil?)
-                  print_error("Trailing '.rb'. Did you mean: '#{module_name[0...-3]}' ?")
+                  print_error("Trailing '.rb'. Did you mean: '#{module_name[0...-3]}'?")
                 end
                elsif(module_name.last(1).eql? '.')
                  if(!framework.modules.create(module_name[0...-1]).nil?)
