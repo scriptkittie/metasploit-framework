@@ -605,6 +605,7 @@ module Msf
                 mod = framework.modules.create(mod_name)
                 unless mod
                   print_error("Failed to load module: #{mod_name}")
+                  check_module_name(mod_name)
                   return false
                 end
               end
@@ -1112,6 +1113,24 @@ module Msf
               'Postfix' => "\n",
               'Columns' => [ 'Name', 'Disclosure Date', 'Rank', 'Description' ]
             )
+          end
+
+          #
+          # Check module name for ending "." or ".rb" at end of payload name
+          #
+
+          def check_module_name(module_name) # :nodoc:
+            if(!module_name.nil? and !module_name.blank?)
+              if(module_name.last(3).eql? '.rb')
+                if(!framework.modules.create(module_name[0...-3]).nil?)
+                  print_error("Trailing '.rb'. Did you mean: '#{module_name[0...-3]}' ?")
+                end
+               elsif(module_name.last(1).eql? '.')
+                 if(!framework.modules.create(module_name[0...-1]).nil?)
+                   print_error("Trailing '.'. Did you mean: '#{module_name[0...-1]}'?")
+                 end
+              end
+            end
           end
 
         end
